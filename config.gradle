@@ -1,0 +1,92 @@
+ext{
+//    解决冲突 http://www.wanandroid.com/blog/show/2314
+    versions = [
+            compileSdk    : 28,
+            targetSdk     : 28,
+            minSdk        : 16,
+            buildTools    : '28.0.3',
+            versionCode   : 1,
+            versionName   : "v1.0.1",
+    ]
+
+    appkey = [
+            APPKEY_TEST_WECHAT : "\"wx38677be160065e4a\"",//微信支付
+            APPKEY_RELEASE_WECHAT : "\"wx38677be160065e4a\"",//微信支付
+
+            APPKEY_TEST_STRIPE : "\"pk_test_zUgDoRV4ktJbWrED67PpwOOF\"",//信用卡支付
+            APPKEY_RELEASE_STRIPE : "\"pk_live_PPbkRGIbINvCU2IHI4X08IsY\"",//信用卡支付
+    ]
+
+    host = [
+            HOST1_DEVE : "\"http://api2.dev.postalong.com/\"",//服务器1开发地址
+            HOST1_TEST : "\"http://api2.test.postalong.com/\"",//服务器1测试地址
+            HOST1_RELEASE : "\"http://api2.postalong.com/\"",//服务器1正式地址
+            HOST1_RELEASE_PRE_CHINA : "\"http://54.223.94.35:8085/\"",//服务器1预发布国内正式地址
+            HOST1_RELEASE_PRE_ABROAD : "\"http://52.11.61.63:8085/\"",//服务器1预发布国内正式地址
+
+//            HOST2_DEVE : "\"https://api2.douban.dev.com/\"",//服务器2开发地址
+//            HOST2_TEST : "\"https://api2.douban.test.com/\"",//服务器2测试地址
+//            HOST2_RELEASE : "\"https://api2.douban.com/\"",//服务器2正式地址
+    ]
+
+    depsVersion = [
+            retrofit   : '2.4.0',
+            okhttp     : '3.11.0',
+            butterKnife: '8.6.0',
+            rxandroid:'2.0.1',
+            rxjava:'2.2.0',
+            rxlifecycle: '2.2.2',
+            "rxlifecycle-components": '2.2.2',
+            latestVersion : 'latest.integration',
+
+            appcompatVersion  : '28.0.0',
+            designVersion : '28.0.0',
+            recyclerviewVersion    : '28.0.0',
+    ]
+
+    google = [
+            "recyclerview" :  "com.android.support:recyclerview-v7:${depsVersion.recyclerviewVersion}",
+            "design" : "com.android.support:design:${depsVersion.designVersion}",
+            "appcompat" : "com.android.support:appcompat-v7:${depsVersion.appcompatVersion}"
+    ]
+
+    image = [
+            "glide" : "com.github.bumptech.glide:glide:4.4.0"
+    ]
+
+    net = [
+            "rxjava2" : "io.reactivex.rxjava2:rxjava:${depsVersion.rxjava}",
+            "rxandroid2" : "io.reactivex.rxjava2:rxandroid:${depsVersion.rxandroid}",
+            "okhttp3" : "com.squareup.okhttp3:okhttp:${depsVersion.okhttp}",
+            "okhttp3-logging" : "com.squareup.okhttp3:logging-interceptor:${depsVersion.okhttp}",
+            "retrofit2" : "com.squareup.retrofit2:retrofit:${depsVersion.retrofit}",
+            "retrofit2-converter-gson" : "com.squareup.retrofit2:converter-gson:${depsVersion.retrofit}",
+            "retrofit2-adapter-rxjava2" : "com.squareup.retrofit2:adapter-rxjava2:${depsVersion.retrofit}",
+            /**管理rxjava生命周期**/
+            "rxlifecycle2" : "com.trello.rxlifecycle2:rxlifecycle:${depsVersion.rxlifecycle}",
+            "rxlifecycle2-components" : "com.trello.rxlifecycle2:rxlifecycle-components:${depsVersion.rxlifecycle-components}"
+    ]
+
+    fastDev = [
+            /*数据存储 https://github.com/orhanobut/hawk*/
+            hawk : 'com.orhanobut:hawk:2.0.1',
+            /* 滑动黏性工具类 使用教程 https://github.com/EverythingMe/overscroll-decor */
+            overscroll : 'me.everything:overscroll-decor-android:1.0.4',
+            /*图片缩放控件https://github.com/bm-x/PhotoView*/
+            photoview : 'com.bm.photoview:library:1.4.1',
+            /**运行时权限 https://github.com/tbruyelle/RxPermissions/tree/master  minSdkVersion>=11;使用RxPermissions申请权限，必须在Activity.onCreate()或者View.onFinishInflate()中处理。**/
+            rxpermissions : 'com.github.tbruyelle:rxpermissions:0.10.2',
+            /**功能全面的自定义标题栏 https://github.com/wuhenzhizao/android-titlebar**/
+            titlebar : 'com.wuhenzhizao:titlebar:1.0.7',
+            /**加载中&重试&无数据状态页面封装  https://github.com/KingJA/LoadSir**/
+            loadsir : 'com.kingja.loadsir:loadsir:1.3.6',
+            /**事件总线 https://github.com/greenrobot/EventBus**/
+            eventbus : 'org.greenrobot:eventbus:3.1.1',
+            /**dialog封装 https://github.com/afollestad/material-dialogs **/
+            dialog : 'com.github.afollestad.material-dialogs:commons:0.8.2.0@aar'
+            /**方便管理Fragment、StatusBar 、Toolbar的库 https://github.com/listenzz/AndroidNavigation**/
+//            navigation : 'me.listenzz:navigation:1.0.0'
+            /**日志工具 https://github.com/orhanobut/logger**/
+//            logger : "com.orhanobut:logger:2.2.0"
+    ]
+}
