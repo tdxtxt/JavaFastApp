@@ -36,6 +36,7 @@ dependencies {
     implementation rootProject.ext.net["rxlifecycle2-components"]
 
     implementation rootProject.ext.fastDev.rxpermissions
+    implementation rootProject.ext.fastDev.eventbus
     implementation (rootProject.ext.fastDev.dialog){
         transitive = true
         exclude group: 'com.android.support'
