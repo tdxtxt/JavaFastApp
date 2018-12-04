@@ -24,6 +24,7 @@ public class DialogHelper {
     public static Dialog createCommDialog(Context context, String title, String content, final boolean cancelable, final MenuDialogCallBack leftMenu, final MenuDialogCallBack rightMenu){
         if(content == null) return null;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.theme(Theme.LIGHT);
         if(!TextUtils.isEmpty(title)) builder.title(title);
         if(!TextUtils.isEmpty(content)) builder.content(content);
         builder.cancelable(cancelable).canceledOnTouchOutside(cancelable)
