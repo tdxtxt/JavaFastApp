@@ -1,6 +1,5 @@
 package com.baselib.helper;
 
-import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;

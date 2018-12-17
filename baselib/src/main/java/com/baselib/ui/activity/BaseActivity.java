@@ -11,17 +11,31 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baselib.R;
 import com.baselib.bean.event.Event;
 import com.baselib.helper.DialogHelper;
 import com.baselib.helper.EventBusHelper;
 import com.baselib.helper.HashMapParams;
+import com.baselib.ui.statusview.CustomCallback;
+import com.baselib.ui.statusview.EmptyCallback;
+import com.baselib.ui.statusview.ErrorCallback;
+import com.baselib.ui.statusview.LoadingCallback;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.Convertor;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
+import com.kingja.loadsir.core.Transport;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -33,6 +47,8 @@ import io.reactivex.functions.Consumer;
  */
 public abstract class BaseActivity extends RxAppCompatActivity {
     private Dialog mProgressDialog;
+    private LoadService mLoadService;
+    private RxPermissions mRxPermission;
     protected abstract @LayoutRes int  getLayoutResID();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +62,59 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
     }
 
-
-/***************************************************/
+/************************状态页封装***************************/
+    protected int getContentResID(){
+        return R.id.view_content;
+    }
+    /**
+     * 配置状态页面,可重写
+     */
+    protected LoadSir configLoadView(){
+        return LoadSir.getDefault();
+    }
+    private void initLoadView(){
+        LoadSir loadSir = configLoadView();
+        if(loadSir == null) loadSir = LoadSir.getDefault();
+        View contentView = findViewById(getContentResID());
+        if(contentView == null) return;
+        mLoadService = loadSir.register(contentView, new Callback.OnReloadListener() {
+            @Override
+            public void onReload(View v) {
+                BaseActivity.this.onReload();
+            }
+        }, new Convertor<Throwable>() {
+            @Override
+            public Class<? extends Callback> map(Throwable o) {
+                return null;
+            }
+        });
+        mLoadService.setCallBack(EmptyCallback.class, new Transport() {
+            @Override
+            public void order(Context context, View view) {
+                dynamicEmptyView(((ImageView)view.findViewById(R.id.iv_empty)),((TextView)view.findViewById(R.id.tv_empty)));
+            }
+        });
+    }
+    public void showLoading() {
+        if(mLoadService != null) mLoadService.showCallback(LoadingCallback.class);
+    }
+    public void showSuccess() {
+        if(mLoadService != null) mLoadService.showSuccess();
+    }
+    public void showEmpty() {
+        if(mLoadService != null) mLoadService.showCallback(EmptyCallback.class);
+    }
+    public void showCustom(){
+        if(mLoadService != null) mLoadService.showCallback(CustomCallback.class);
+    }
+    public void showError(Throwable e) {
+        if(mLoadService != null) mLoadService.showCallback(ErrorCallback.class);
+    }
+    /**
+     * 动态调整空页面
+     */
+    public void dynamicEmptyView(ImageView ivEmpty, TextView tvEmpty){}
+    /*************************************参数封装解析*****************************************/
     private void parseParams(){
         Intent intent = getIntent();
         Bundle extraBundle = intent.getBundleExtra("Bundle");
@@ -57,8 +124,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void getParams(Bundle bundle){}
     protected void initUi(){}
     protected void reqApi(){}
-
-    /***************************************************/
+    protected void onReload() {
+        reqApi();
+    }
+    /*************************************进度条*****************************************/
     public void showProgressBar() {
         if(isFinishing()) return;
         if(mProgressDialog == null) mProgressDialog = DialogHelper.createProgressDialog(this,"温馨提示","请耐心等待，正在处理...",true);
@@ -70,11 +139,24 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     public void hideProgressBar() {
         if(mProgressDialog != null) mProgressDialog.dismiss();
     }
-    /***************************************************/
+    /*************************************startActivity*****************************************/
     public void startActivity(Class clazz, HashMapParams params){
         Intent intent = new Intent(this,clazz);
         intent.putExtra("Bundle",params.toBundle());
         startActivity(intent);
+    }
+    public void startActivityForResult(Class clazz, HashMapParams params){
+        Intent intent = new Intent(this,clazz);
+        intent.putExtra("Bundle",params.toBundle());
+        startActivityForResult(intent,12);
+    }
+
+    /**
+     * 动态权限
+     */
+    public Observable<Permission> requestPermissions(String ... permissions) {
+        if(mRxPermission == null) mRxPermission = new RxPermissions(this);
+        return mRxPermission.requestEach(permissions);
     }
     /*************************************事件封装*****************************************/
     /**

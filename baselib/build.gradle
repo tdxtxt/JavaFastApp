@@ -41,4 +41,5 @@ dependencies {
         transitive = true
         exclude group: 'com.android.support'
     }
+    implementation rootProject.ext.fastDev.loadsir
 }
