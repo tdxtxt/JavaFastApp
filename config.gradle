@@ -83,10 +83,13 @@ ext{
             /**事件总线 https://github.com/greenrobot/EventBus**/
             eventbus : 'org.greenrobot:eventbus:3.1.1',
             /**dialog封装 https://github.com/afollestad/material-dialogs **/
-            dialog : 'com.github.afollestad.material-dialogs:commons:0.8.2.0@aar'
+            dialog : 'com.github.afollestad.material-dialogs:commons:0.8.2.0@aar',
+            /**刷新控件 https://github.com/scwang90/SmartRefreshLayout**/
+            refresh : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-11",
+            "refresh-header" : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-11",//没有使用特殊Header，可以不加这行
+            /**日志工具 https://github.com/orhanobut/logger**/
+            logger : "com.orhanobut:logger:2.2.0"
             /**方便管理Fragment、StatusBar 、Toolbar的库 https://github.com/listenzz/AndroidNavigation**/
 //            navigation : 'me.listenzz:navigation:1.0.0'
-            /**日志工具 https://github.com/orhanobut/logger**/
-//            logger : "com.orhanobut:logger:2.2.0"
     ]
 }

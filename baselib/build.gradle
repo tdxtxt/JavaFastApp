@@ -42,4 +42,8 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation rootProject.ext.fastDev.loadsir
+    implementation rootProject.ext.fastDev.refresh
+    implementation rootProject.ext.fastDev["refresh-header"]
+    implementation rootProject.ext.fastDev.logger
+    implementation rootProject.ext.fastDev.hawk
 }
