@@ -3,6 +3,7 @@ package com.baselib.helper;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -11,6 +12,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.baselib.ui.dialog.ProgressDialog;
 
 
 /**
@@ -21,10 +23,11 @@ import com.afollestad.materialdialogs.Theme;
  * @返回参数说明： 无
  */
 public class DialogHelper {
-    public static Dialog createCommDialog(Context context, String title, String content, final boolean cancelable, final MenuDialogCallBack leftMenu, final MenuDialogCallBack rightMenu){
+    public static Dialog createCommDialog(Context context, String title, String content, final boolean cancelable, boolean isAutoDismiss , final MenuDialogCallBack leftMenu, final MenuDialogCallBack rightMenu){
         if(content == null) return null;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         builder.theme(Theme.LIGHT);
+        builder.autoDismiss(isAutoDismiss);
         if(!TextUtils.isEmpty(title)) builder.title(title);
         if(!TextUtils.isEmpty(content)) builder.content(content);
         builder.cancelable(cancelable).canceledOnTouchOutside(cancelable)
@@ -57,16 +60,29 @@ public class DialogHelper {
         return builder.build();
     }
 
-    public static Dialog createProgressDialog(Context context,String title,String content,boolean cancelable){
+    public static ProgressDialog createProgressDialog(Context context, String title, String content, boolean cancelable){
+        if(context == null) return null;
+        return new ProgressDialog(context,title,content,cancelable);
+    }
+
+    public static Dialog createCustomViewDialog(Context context, final boolean cancelable, View customView , final LifecycleListener lifecycleListener){
         if(context == null) return null;
         return new MaterialDialog.Builder(context)
                 .cancelable(cancelable)
-                .autoDismiss(false)
                 .theme(Theme.LIGHT)
-                .title(title)
-                .content(content)
-                .progress(true, 0)
-                .build();
+                .customView(customView,true)
+                .showListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        if(dialog != null && dialog instanceof MaterialDialog){
+                            if(lifecycleListener != null) lifecycleListener.onCreate(((MaterialDialog)dialog).getCustomView(), ((MaterialDialog)dialog));
+                        }
+                    }
+                }).build();
+    }
+
+    public static Dialog createCustomViewDialog(Context context, final boolean cancelable, @LayoutRes int layoutId , final LifecycleListener lifecycleListener){
+        return createCustomViewDialog(context,cancelable,View.inflate(context,layoutId,null),lifecycleListener);
     }
 
     public static class MenuDialogCallBack{
@@ -74,7 +90,10 @@ public class DialogHelper {
         public MenuDialogCallBack(String menuText){
             this.menuText = menuText;
         }
-        void onClick(Dialog dialog) {}
-        void onClick(View customView, Dialog dialog) {}
+        public void onClick(Dialog dialog) {}
+        public void onClick(View customView, Dialog dialog) {}
+    }
+    public interface LifecycleListener{
+        void onCreate(View view,Dialog dialog);
     }
 }

@@ -11,9 +11,38 @@ android {
         versionName versions.versionName
     }
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            //是否打印LOG true-false
+            buildConfigField "Boolean", "isLog", "true"
+            //是否开启开发工具
+            buildConfigField "Boolean", "isDevelopTool", "true"
+            //服务器地址
+            buildConfigField "String", "HOST1", rootProject.ext.host.HOST1_TEST//常量-当前服务器地址
+            buildConfigField "String", "HOST1_DEVE", rootProject.ext.host.HOST1_DEVE//常量-开发服务网地址
+            buildConfigField "String", "HOST1_TEST", rootProject.ext.host.HOST1_TEST//常量-测试服务网地址
+            buildConfigField "String", "HOST1_RELEASE_PRE", rootProject.ext.host.HOST1_RELEASE_PRE//常量-预发布服务网地址
+            buildConfigField "String", "HOST1_RELEASE", rootProject.ext.host.HOST1_RELEASE//常量-正式服服务网地址
+
+            debuggable true
+            minifyEnabled false //minifyEnabled主要用来控制是否运行混淆的。
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            //是否打印LOG true-false
+            buildConfigField "Boolean", "isLog", "true"
+            //是否开启开发工具
+            buildConfigField "Boolean", "isDevelopTool", "false"
+            //服务器地址
+            buildConfigField "String", "HOST1", rootProject.ext.host.HOST1_RELEASE//常量-当前服务器地址
+            buildConfigField "String", "HOST1_DEVE", rootProject.ext.host.HOST1_DEVE//常量-开发服务网地址
+            buildConfigField "String", "HOST1_TEST", rootProject.ext.host.HOST1_TEST//常量-测试服务网地址
+            buildConfigField "String", "HOST1_RELEASE_PRE", rootProject.ext.host.HOST1_RELEASE_PRE//常量-预发布服务网地址
+            buildConfigField "String", "HOST1_RELEASE", rootProject.ext.host.HOST1_RELEASE//常量-正式服服务网地址
+
+            debuggable false
+            minifyEnabled false //minifyEnabled主要用来控制是否运行混淆的。
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -24,4 +53,7 @@ dependencies {
     implementation rootProject.ext.google.recyclerview
     implementation rootProject.ext.google.design
     implementation rootProject.ext.google.appcompat
+    implementation project(path: ':baselib')
+    implementation rootProject.ext.fastDev.updateplugin
+    implementation rootProject.ext.fastDev["adapter-recyclerview"]
 }

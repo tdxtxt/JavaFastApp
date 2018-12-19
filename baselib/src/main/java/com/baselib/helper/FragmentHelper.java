@@ -37,14 +37,14 @@ public class FragmentHelper {
      * 优点：不用重新创建Fragment
      * 使用场景；需要保留用户数据的情形。
      */
-    public static <T extends Fragment> void showHideFragment(FragmentManager fManager,T inFragment, int fragmentResId) {
+    public static <T extends Fragment> void showFragment(FragmentManager fManager,T inFragment, int fragmentResId) {
         // 开启事物
         FragmentTransaction fragmentTransaction = fManager.beginTransaction();
         // 先隐藏当前所有的Fragment
         List<Fragment> childFragments = fManager.getFragments();
         if(childFragments != null){
             for (Fragment childFragment : childFragments) {
-                fragmentTransaction.hide(childFragment);
+                if(childFragment != null) fragmentTransaction.hide(childFragment);
             }
         }
         // 2.如果容器里面没有我们就添加，否则显示
@@ -53,7 +53,7 @@ public class FragmentHelper {
         if(tempFragment != null){
             fragmentTransaction.show(inFragment);
         }else{
-            fragmentTransaction.add(fragmentResId,inFragment,tag).addToBackStack(tag);
+            if(!inFragment.isAdded()) fragmentTransaction.add(fragmentResId,inFragment,tag);//.addToBackStack(tag)//将一个事务添加到返回栈中
         }
         // 一定要commit
         fragmentTransaction.commitAllowingStateLoss();

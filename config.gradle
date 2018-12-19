@@ -21,8 +21,7 @@ ext{
             HOST1_DEVE : "\"http://api2.dev.postalong.com/\"",//服务器1开发地址
             HOST1_TEST : "\"http://api2.test.postalong.com/\"",//服务器1测试地址
             HOST1_RELEASE : "\"http://api2.postalong.com/\"",//服务器1正式地址
-            HOST1_RELEASE_PRE_CHINA : "\"http://54.223.94.35:8085/\"",//服务器1预发布国内正式地址
-            HOST1_RELEASE_PRE_ABROAD : "\"http://52.11.61.63:8085/\"",//服务器1预发布国内正式地址
+            HOST1_RELEASE_PRE : "\"http://54.223.94.35:8085/\"",//服务器1预发布国内正式地址
 
 //            HOST2_DEVE : "\"https://api2.douban.dev.com/\"",//服务器2开发地址
 //            HOST2_TEST : "\"https://api2.douban.test.com/\"",//服务器2测试地址
@@ -88,8 +87,10 @@ ext{
             refresh : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-11",
             "refresh-header" : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-11",//没有使用特殊Header，可以不加这行
             /**日志工具 https://github.com/orhanobut/logger**/
-            logger : "com.orhanobut:logger:2.2.0"
-            /**方便管理Fragment、StatusBar 、Toolbar的库 https://github.com/listenzz/AndroidNavigation**/
-//            navigation : 'me.listenzz:navigation:1.0.0'
+            logger : "com.orhanobut:logger:2.2.0",
+            /**更新插件 https://github.com/yjfnypeu/UpdatePlugin**/
+            updateplugin : "com.github.yjfnypeu:UpdatePlugin:3.1.2",
+            /**RecyclerView通用adapter https://github.com/CymChad/BaseRecyclerViewAdapterHelper**/
+            "adapter-recyclerview" : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44"
     ]
 }

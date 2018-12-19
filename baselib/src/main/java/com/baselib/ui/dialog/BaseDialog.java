@@ -1,6 +1,9 @@
 package com.baselib.ui.dialog;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,7 +24,58 @@ public class BaseDialog {
                 .customView(layoutId,false)
                 .build();
     }
+    public BaseDialog(MaterialDialog dialog){
+        this.dialog = dialog;
+    }
     public View getCustomView(){
         return dialog.getCustomView();
+    }
+
+    public Dialog getDialog(){
+        return dialog;
+    }
+
+    public void show(){
+        if (dialog == null || dialog.isShowing()) {
+            return;
+        }
+        Activity bindAct = getActivity(dialog);
+
+        if (!isValid(bindAct)) {
+            return;
+        }
+
+        dialog.show();
+    }
+
+    public void dismiss(){
+        if (dialog == null || !dialog.isShowing()) {
+            return;
+        }
+
+        Activity bindAct = getActivity(dialog);
+        if (bindAct != null && !bindAct.isFinishing()) {
+            dialog.dismiss();
+        }
+    }
+
+    private boolean isValid(Activity activity) {
+        return activity != null && !activity.isFinishing();
+    }
+
+    private Activity getActivity(Dialog dialog) {
+        Activity bindAct = null;
+        Context context = dialog.getContext();
+        do {
+            if (context instanceof Activity) {
+                bindAct = (Activity) context;
+                break;
+            } else if (context instanceof ContextThemeWrapper) {
+                context = ((ContextThemeWrapper) context).getBaseContext();
+            } else {
+                break;
+            }
+        } while (true);
+        return bindAct;
     }
 }

@@ -19,6 +19,8 @@ import com.baselib.bean.event.Event;
 import com.baselib.helper.DialogHelper;
 import com.baselib.helper.EventBusHelper;
 import com.baselib.helper.HashMapParams;
+import com.baselib.net.ComposeHelper;
+import com.baselib.net.reqApi.model.IModel;
 import com.baselib.ui.statusview.CustomCallback;
 import com.baselib.ui.statusview.EmptyCallback;
 import com.baselib.ui.statusview.ErrorCallback;
@@ -34,7 +36,10 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Publisher;
 
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
@@ -130,7 +135,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     /*************************************进度条*****************************************/
     public void showProgressBar() {
         if(isFinishing()) return;
-        if(mProgressDialog == null) mProgressDialog = DialogHelper.createProgressDialog(this,"温馨提示","请耐心等待，正在处理...",true);
+        if(mProgressDialog == null) mProgressDialog = DialogHelper.createProgressDialog(this,"温馨提示","请耐心等待，正在处理...",true).getDialog();
         if(mProgressDialog != null){
             if(mProgressDialog.isShowing()) mProgressDialog.dismiss();//先关闭
             mProgressDialog.show();
@@ -217,6 +222,36 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             }
         }
     }
+    /****************************************网络请求销毁******************************************/
+    public <T> FlowableTransformer<T,T> bindToLife(){
+        return new FlowableTransformer<T, T>() {
+            @Override
+            public Publisher<T> apply(Flowable<T> upstream) {
+                return upstream.compose(ComposeHelper.<T>getUIThread())
+                        .compose(BaseActivity.this.<T>bindToLifecycle());
+            }
+        };
+    }
+    public <T> FlowableTransformer<T,T> bindToLifeAndIgnoreError(){
+        return new FlowableTransformer<T, T>() {
+            @Override
+            public Publisher<T> apply(Flowable<T> upstream) {
+                return upstream.compose(BaseActivity.this.<T>bindToLife())
+                        .onErrorResumeNext(Flowable.<T>empty())
+                        .onExceptionResumeNext(Flowable.<T>empty());
+            }
+        };
+    }
+    public <T extends IModel> FlowableTransformer<T,T> bindToLifeAndReqApi(){
+        return new FlowableTransformer<T, T>() {
+            @Override
+            public Publisher<T> apply(Flowable<T> upstream) {
+                return upstream.compose(BaseActivity.this.<T>bindToLife())
+                        .compose(ComposeHelper.<T>getApiTransformer());
+            }
+        };
+    }
+
     /********************************************拦截返回事件*********************************************/
     protected boolean isBackEnable = true;//返回是否可用
     /**
