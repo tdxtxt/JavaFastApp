@@ -13,6 +13,7 @@ JavaFastApp
 - 网络请求封装
 - 图片框架封装
 - 标题栏Activity封装
+- Dialog封装
 - Adapter适配器引入三方框架
 - 更新功能封装
 - webview封装
@@ -24,50 +25,31 @@ JavaFastApp
 
 ### 使用方式：
 
+对各个功能逐一讲解如下
+
 #### 网络请求：
 
-```
-UpdateConfig.getConfig()
-		.setUrl(url)// 配置检查更新的API接口
-		.setUpdateParser(new UpdateParser() {
-			@Override
-			public void Update parse(String response) throws Exception {
-				// TODO 此处的response数据为上方检查更新接口所返回回来的数据。
-				// 需要在此对response数据进行解析，并创建出对应的update实体类数据
-				// 提供给框架内部进行使用
-				return update;
-			}
-		});
-```
+框架最大的优点在于动态改变网络请求根域名，减少测试过程中平凡打包的问题。
 
+```
+ ApiClient.getService().testapi(parameter)
+                                .compose(this.<ResponseBody>bindToLifeAndReqApi())
+                                .subscribe(new Consumer<ResponseBody>() {
+                                    @Override
+                                    public void accept(ResponseBody body) throws Exception {
+                                       //处理数据内容
+                                    }
+                                });
+```
 #### 图片框架
 
-框架提供两种更新任务启动方式，分别对应于不同的场景下进行使用：
+#### Dialog使用
 
-##### 1. 普通更新任务
+封装工具类提供两种使用dialog的方式
 
-```
-UpdateBuilder.create()
-	.check();// 启动更新任务
-```
-普通更新任务主要用于设置页中，由用户点击检查更新时所主动触发的更新任务。
-##### 2. 后台更新任务
+##### 1. 静态调用方法
 
-后台更新任务主要是提供出来，采用后台轮询更新的机制，便于及时检查到新发布的APK进行版本更新
-
-```
-UpdateBuilder task = UpdateBuilder.create()
-
-// 启动后台更新任务，retryTime为重启时间间隔，单位为秒。
-// 即通过此方法所启动的更新任务。将会在'无更新'，'更新失败'等条件下：
-// 延迟指定的时间间隔后，自动重新启动。
-task.checkForDaemon(retryTime);
-...
-// 可使用此方法，停止后台更新任务的重启机制。
-task.stopDaemon();
-```
-
-[更多使用方法请参考此处WIKI文档](https://github.com/yjfnypeu/UpdatePlugin/wiki)
+##### 2. 继承BaseDialog类
 
 ### 联系作者
 email: 1049274119@qq.com
