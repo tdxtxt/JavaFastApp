@@ -16,6 +16,7 @@ JavaFastApp
 - Adapter适配器引入三方框架
 - 更新功能封装
 - webview封装
+- 常用工具类
 
 ### 引入方式：
 
@@ -23,7 +24,7 @@ JavaFastApp
 
 ### 使用方式：
 
-#### 创建更新配置类：
+#### 网络请求：
 
 ```
 UpdateConfig.getConfig()
@@ -39,7 +40,7 @@ UpdateConfig.getConfig()
 		});
 ```
 
-#### 启动更新任务
+#### 图片框架
 
 框架提供两种更新任务启动方式，分别对应于不同的场景下进行使用：
 
