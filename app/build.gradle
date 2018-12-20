@@ -56,4 +56,5 @@ dependencies {
     implementation project(path: ':baselib')
     implementation rootProject.ext.fastDev.updateplugin
     implementation rootProject.ext.fastDev["adapter-recyclerview"]
+    implementation rootProject.ext.fastDev.indicator
 }

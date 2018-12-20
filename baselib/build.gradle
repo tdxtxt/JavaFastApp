@@ -26,14 +26,14 @@ dependencies {
     implementation rootProject.ext.google.design
     implementation rootProject.ext.google.appcompat
 
-    implementation rootProject.ext.net.rxjava2
-    implementation rootProject.ext.net.rxandroid2
-    implementation rootProject.ext.net.okhttp3
-    implementation rootProject.ext.net["okhttp3-logging"]
-    implementation rootProject.ext.net["retrofit2-converter-gson"]
-    implementation rootProject.ext.net["retrofit2-adapter-rxjava2"]
-    implementation rootProject.ext.net.rxlifecycle2
-    implementation rootProject.ext.net["rxlifecycle2-components"]
+    api rootProject.ext.net.rxjava2
+    api rootProject.ext.net.rxandroid2
+    api rootProject.ext.net.okhttp3
+    api rootProject.ext.net["okhttp3-logging"]
+    api rootProject.ext.net["retrofit2-converter-gson"]
+    api rootProject.ext.net["retrofit2-adapter-rxjava2"]
+    api rootProject.ext.net.rxlifecycle2
+    api rootProject.ext.net["rxlifecycle2-components"]
 
     implementation rootProject.ext.fastDev.rxpermissions
     implementation rootProject.ext.fastDev.eventbus

@@ -91,6 +91,9 @@ ext{
             /**更新插件 https://github.com/yjfnypeu/UpdatePlugin**/
             updateplugin : "com.github.yjfnypeu:UpdatePlugin:3.1.2",
             /**RecyclerView通用adapter https://github.com/CymChad/BaseRecyclerViewAdapterHelper**/
-            "adapter-recyclerview" : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44"
+            "adapter-recyclerview" : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44",
+            /**指示器 https://github.com/hackware1993/MagicIndicator**/
+            indicator : 'com.github.hackware1993:MagicIndicator:1.5.0'
+
     ]
 }
