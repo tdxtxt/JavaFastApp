@@ -12,6 +12,7 @@ JavaFastApp
 
 - 网络请求封装
 - 图片框架封装
+- 存储框架封装
 - 标题栏Activity封装
 - Dialog封装
 - Adapter适配器引入三方框架
@@ -42,6 +43,8 @@ JavaFastApp
                                 });
 ```
 #### 图片框架
+
+#### 存储框架
 
 #### Dialog使用
 
