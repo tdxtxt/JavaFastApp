@@ -17,6 +17,7 @@ JavaFastApp
 - Dialog封装
 - Adapter适配器引入三方框架
 - 更新功能封装
+- 分享功能封装
 - webview封装
 - 常用工具类
 
