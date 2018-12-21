@@ -8,6 +8,12 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
+        javaCompileOptions {
+            // 显式声明支持注解
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     buildTypes {
@@ -16,25 +22,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //google官方lib
     implementation rootProject.ext.google.recyclerview
     implementation rootProject.ext.google.design
     implementation rootProject.ext.google.appcompat
 
-    api rootProject.ext.net.rxjava2
-    api rootProject.ext.net.rxandroid2
-    api rootProject.ext.net.okhttp3
-    api rootProject.ext.net["okhttp3-logging"]
-    api rootProject.ext.net["retrofit2-converter-gson"]
-    api rootProject.ext.net["retrofit2-adapter-rxjava2"]
-    api rootProject.ext.net.rxlifecycle2
-    api rootProject.ext.net["rxlifecycle2-components"]
+    //图片库
+    implementation (rootProject.ext.image.glide){exclude group: "com.android.support"}
+    implementation rootProject.ext.image.glideOkhttp
 
+    compileOnly rootProject.ext.views.butterknife
+
+    //rxjava + retrofit相关
+    api rootProject.ext.netLibs
+
+    //快捷开发库
     implementation rootProject.ext.fastDev.rxpermissions
     implementation rootProject.ext.fastDev.eventbus
     implementation (rootProject.ext.fastDev.dialog){
@@ -46,4 +53,6 @@ dependencies {
     implementation rootProject.ext.fastDev["refresh-header"]
     implementation rootProject.ext.fastDev.logger
     implementation rootProject.ext.fastDev.hawk
+
+    annotationProcessor rootProject.ext.annotationProcessorLibs
 }

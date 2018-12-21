@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -57,4 +58,9 @@ dependencies {
     implementation rootProject.ext.fastDev.updateplugin
     implementation rootProject.ext.fastDev["adapter-recyclerview"]
     implementation rootProject.ext.fastDev.indicator
+
+    //控件id注入库
+    implementation rootProject.ext.views.butterknife
+
+//    annotationProcessor rootProject.ext.annotationProcessorLibs
 }

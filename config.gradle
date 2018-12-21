@@ -49,10 +49,6 @@ ext{
             "appcompat" : "com.android.support:appcompat-v7:${depsVersion.appcompatVersion}"
     ]
 
-    image = [
-            "glide" : "com.github.bumptech.glide:glide:4.4.0"
-    ]
-
     net = [
             "rxjava2" : "io.reactivex.rxjava2:rxjava:${depsVersion.rxjava}",
             "rxandroid2" : "io.reactivex.rxjava2:rxandroid:${depsVersion.rxandroid}",
@@ -64,6 +60,21 @@ ext{
             /**管理rxjava生命周期**/
             "rxlifecycle2" : "com.trello.rxlifecycle2:rxlifecycle:${depsVersion.rxlifecycle}",
             "rxlifecycle2-components" : "com.trello.rxlifecycle2:rxlifecycle-components:${depsVersion.rxlifecycle-components}"
+    ]
+
+    netLibs = net.values()
+
+    image = [
+            /**图片框架 https://muyangmin.github.io/glide-docs-cn/doc**/
+            glide : "com.github.bumptech.glide:glide:4.8.0",
+            glideOkhttp  : "com.github.bumptech.glide:okhttp3-integration:4.8.0",
+            glideCompiler : 'com.github.bumptech.glide:compiler:4.8.0'
+    ]
+
+    views = [
+            /**butterknife框架 https://github.com/JakeWharton/butterknife**/
+            butterknife : 'com.jakewharton:butterknife:9.0.0-rc3',
+            butterknifeCompiler : 'com.jakewharton:butterknife-compiler:9.0.0-rc3'
     ]
 
     fastDev = [
@@ -94,6 +105,7 @@ ext{
             "adapter-recyclerview" : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44",
             /**指示器 https://github.com/hackware1993/MagicIndicator**/
             indicator : 'com.github.hackware1993:MagicIndicator:1.5.0'
-
     ]
+
+    annotationProcessorLibs = [image["glideCompiler"],views["butterknifeCompiler"]]
 }

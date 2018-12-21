@@ -15,6 +15,7 @@ import com.baselib.helper.DrawableHelper;
 import com.baselib.helper.OpenOsActHelper;
 import com.baselib.helper.ToastHelper;
 import com.baselib.helper.VersionHelper;
+import com.baselib.net.reqApi.NetMgr;
 import com.baselib.ui.dialog.ProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -24,6 +25,7 @@ import com.fastdev.bean.update.UpgradeInfo;
 import com.fastdev.helper.AppHelper;
 import com.fastdev.helper.FastAppCache;
 import com.fastdev.net.ApiClient;
+import com.fastdev.net.setting.TonNetProvider;
 import com.fastdev.ton.BuildConfig;
 import com.fastdev.ton.R;
 import com.google.gson.Gson;
@@ -80,6 +82,8 @@ public class TondxApp extends DevApp{
             settingForeground(app);
             //更新插件的配置
             settingUpdate();
+            //设置网络框架
+            NetMgr.getInstance().registerProvider(new TonNetProvider());
         }
     }
 

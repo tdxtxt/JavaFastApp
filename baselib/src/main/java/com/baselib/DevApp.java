@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.baselib.cache.CacheHelper;
+import com.baselib.helper.ImageLoadHelper;
 import com.baselib.helper.LogA;
 import com.baselib.ui.statusview.CustomCallback;
 import com.baselib.ui.statusview.EmptyCallback;
@@ -35,6 +36,7 @@ public abstract class DevApp {
         initStatusView();
         LogA.init(isLoggable());
         CacheHelper.init(app);
+        ImageLoadHelper.init(app);
     }
 
     public abstract boolean isLoggable();
