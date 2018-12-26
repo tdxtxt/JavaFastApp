@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.baselib.image.progress.ProgressInterceptor;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
-import com.bumptech.glide.Glide;
 
 import java.io.InputStream;
 
@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
  *     time   : 2018/6/28
  *     desc   : Glide官方推荐的方式:
  *              生成 https://bumptech.github.io/glide/doc/generatedapi.html
+ *              参考 https://juejin.im/post/5a3295356fb9a0451464128c
  * </pre> 
  */
 

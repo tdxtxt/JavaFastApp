@@ -27,6 +27,7 @@ import java.io.File;
  *     time   : 2018/6/27
  *     desc   : Glide图片加载器
  *              https://github.com/bumptech/glide/
+ *              https://github.com/VeiZhang/ImageLoader
  * </pre> 
  */
 public final class GlideImageLoader implements ImageLoader
