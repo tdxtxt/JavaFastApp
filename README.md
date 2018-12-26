@@ -13,7 +13,7 @@ JavaFastApp
 - 网络请求封装
 - 图片框架封装
 - 存储框架封装
-- 标题栏Activity封装
+- Activity封装
 - Dialog封装
 - Adapter适配器引入三方框架
 - 更新功能封装
@@ -46,6 +46,11 @@ JavaFastApp
 #### 图片框架
 
 #### 存储框架
+
+#### Activity的封装
+##### 1. BaseActivity基类封装功能【ButterKnife集成、状态页统一封装、EventBus集成、精度条】
+##### 2. 对标题栏的封装，继承自BaseActivity
+
 
 #### Dialog使用
 
