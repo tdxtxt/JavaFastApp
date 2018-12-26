@@ -10,6 +10,10 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+//        javaCompileOptions{
+//            annotationProcessorOptions.includeCompileClasspath = true
+//        }
     }
     buildTypes {
         debug {
@@ -60,6 +64,5 @@ dependencies {
     implementation rootProject.ext.fastDev.indicator
 
     //控件id注入库
-//    implementation rootProject.ext.butterknifeLibs
-//    annotationProcessor rootProject.ext.annotationProcessorLibs
+    implementation rootProject.ext.butterknifeLibs
 }

@@ -8,9 +8,6 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
-        javaCompileOptions{
-            annotationProcessorOptions.includeCompileClasspath = true
-        }
     }
 
     buildTypes {
@@ -33,7 +30,7 @@ dependencies {
     implementation (rootProject.ext.image.glide){exclude group: "com.android.support"}
     implementation rootProject.ext.image.glideOkhttp
 
-//    compileOnly rootProject.ext.butterknifeLibs
+    compileOnly rootProject.ext.butterknifeLibs
 
     //rxjava + retrofit相关
     api rootProject.ext.netLibs

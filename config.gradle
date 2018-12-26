@@ -109,5 +109,5 @@ ext{
             indicator : 'com.github.hackware1993:MagicIndicator:1.5.0'
     ]
 
-    annotationProcessorLibs = [image["glideCompiler"]/*,views["butterknifeCompiler"]*/]
+    annotationProcessorLibs = [image["glideCompiler"],views["butterknifeCompiler"]]
 }

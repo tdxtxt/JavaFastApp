@@ -25,6 +25,7 @@ public class ImageLoadHelper {
      * 加载图片：统一调用入口
      */
     public static void displayImage(ImageView imgView,String url){
+        if(imgView == null) return;
         mImageLoader.loadImage(imgView,url);
     }
 }

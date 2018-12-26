@@ -52,6 +52,7 @@ public final class GlideImageLoader implements ImageLoader
 
 	private void load(@NonNull ImageView view, Object obj, int placeholderResId, int errorResId, IListener listener)
 	{
+		if(view == null) return;
 		GlideRequests glideRequests = GlideApp.with(mContext);
 		GlideRequest<Drawable> glideRequest = glideRequests.load(obj);
 

@@ -38,6 +38,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.reactivestreams.Publisher;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
@@ -54,12 +56,14 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private Dialog mProgressDialog;
     private LoadService mLoadService;
     private RxPermissions mRxPermission;
+    private Unbinder unbinder;
     protected abstract @LayoutRes int  getLayoutResID();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parseParams();//解析参数
         setContentView(getLayoutResID());
+        unbinder = ButterKnife.bind(this);
         overridePendingTransition(R.anim.baselib_slide_in_form_right, 0);//进入的切换动画
         initUi();
         if (isRegisteredEventBus()) {//尽量少用事件总线
@@ -287,6 +291,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(unbinder != null) unbinder.unbind();
         if (isRegisteredEventBus()) {
             EventBusHelper.unregister(this);
         }
