@@ -12,6 +12,7 @@ import java.io.File;
  *     blog   : http://tiimor.cn
  *     time   : 2018/6/20
  *     desc   : 策略接口
+ *     https://github.com/VeiZhang/ImageLoader
  * </pre>
  */
 public interface ImageLoader
