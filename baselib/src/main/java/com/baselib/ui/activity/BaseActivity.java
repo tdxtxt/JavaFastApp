@@ -257,21 +257,19 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     /********************************************拦截返回事件*********************************************/
-    protected boolean isBackEnable = true;//返回是否可用
     /**
-     * true可以返回，默认为ture，false不可返回
-     * @param backEnable
+     * true表示拦截，不可返回，false表示不拦截，可返回
      */
-    protected void setBackEnable(boolean backEnable){
-        this.isBackEnable = backEnable;
+    protected boolean interceptBackEvent(){
+        return false;
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            if(isBackEnable){
-                super.onKeyDown(keyCode, event);
-            }else{
+            if(interceptBackEvent()){
                 return false;//不吃掉事件,但不能返回
+            }else{
+                super.onKeyDown(keyCode, event);
             }
         }
         return super.onKeyDown(keyCode, event);

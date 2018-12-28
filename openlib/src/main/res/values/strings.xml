@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">openlib</string>
+    <string name="titlebar_search_hint">Search</string>
 </resources>

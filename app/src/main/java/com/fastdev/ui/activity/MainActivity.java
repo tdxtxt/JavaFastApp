@@ -5,12 +5,14 @@ import android.widget.ImageView;
 
 import com.baselib.helper.ImageLoadHelper;
 import com.baselib.ui.activity.BaseActivity;
+import com.baselib.ui.activity.CommToolBarActivity;
 import com.fastdev.ton.R;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends CommToolBarActivity {
 
     @BindView(R.id.iv_test)
     ImageView ivTest;
@@ -22,6 +24,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.btn_show)
     public void clickView(View view){
+        CommonTitleBar x = getTitleBar();
         switch (view.getId()){
             case R.id.btn_show:
                 ImageLoadHelper.displayImage(ivTest,"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1415088147,1132690104&fm=26&gp=0.jpg");

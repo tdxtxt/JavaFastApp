@@ -160,6 +160,7 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
 
     private int PADDING_5;
     private int PADDING_12;
+    private int MARGIN_60;
 
     private OnTitleBarListener listener;
     private OnTitleBarDoubleClickListener doubleClickListener;
@@ -190,6 +191,7 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
     private void loadAttributes(Context context, AttributeSet attrs) {
         PADDING_5 = ScreenUtils.dp2PxInt(context, 5);
         PADDING_12 = ScreenUtils.dp2PxInt(context, 12);
+        MARGIN_60 = ScreenUtils.dp2PxInt(context, 84);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CommonTitleBar);
 
@@ -198,7 +200,7 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
             fillStatusBar = array.getBoolean(R.styleable.CommonTitleBar_fillStatusBar, true);
         }
         titleBarColor = array.getColor(R.styleable.CommonTitleBar_titleBarColor, Color.parseColor("#ffffff"));
-        titleBarHeight = (int) array.getDimension(R.styleable.CommonTitleBar_titleBarHeight, ScreenUtils.dp2PxInt(context, 44));
+        titleBarHeight = (int) array.getDimension(R.styleable.CommonTitleBar_titleBarHeight, ScreenUtils.dp2PxInt(context, 48));
         statusBarColor = array.getColor(R.styleable.CommonTitleBar_statusBarColor, Color.parseColor("#ffffff"));
         statusBarMode = array.getInt(R.styleable.CommonTitleBar_statusBarMode, 0);
 
@@ -262,7 +264,8 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
         ViewGroup.LayoutParams globalParams = new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         setLayoutParams(globalParams);
 
-        boolean transparentStatusBar = StatusBarUtils.supportTransparentStatusBar();
+        //----ton使之能够预览-----
+        boolean transparentStatusBar = isInEditMode() ? false : StatusBarUtils.supportTransparentStatusBar();
 
         // 构建标题栏填充视图
         if (fillStatusBar && transparentStatusBar) {
@@ -443,8 +446,8 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
             llMainCenter.setOnClickListener(this);
 
             LayoutParams centerParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
-            centerParams.leftMargin = PADDING_12;
-            centerParams.rightMargin = PADDING_12;
+            centerParams.leftMargin = MARGIN_60;
+            centerParams.rightMargin = MARGIN_60;
             centerParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             rlMain.addView(llMainCenter, centerParams);
 
@@ -456,10 +459,13 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
             tvCenter.setGravity(Gravity.CENTER);
             tvCenter.setSingleLine(true);
             // 设置跑马灯效果
-            tvCenter.setMaxWidth((int) (ScreenUtils.getScreenPixelSize(context)[0] * 3 / 5.0));
-            if (centerTextMarquee){
+            //设置ScreenUtils.getScreenPixelSize(context)[0] * 3 / 5.0)值之后preview无法显示视图 --ton
+//          tvCenter.setMaxWidth((int) (ScreenUtils.getScreenPixelSize(context)[0] * 3 / 5.0));
+            if(centerTextMarquee){
                 tvCenter.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 tvCenter.setMarqueeRepeatLimit(-1);
+                tvCenter.setFocusable(true);
+                tvCenter.setFocusableInTouchMode(true);
                 tvCenter.requestFocus();
                 tvCenter.setSelected(true);
             }
@@ -473,8 +479,10 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
             progressCenter.setVisibility(View.GONE);
             int progressWidth = ScreenUtils.dp2PxInt(context, 18);
             LayoutParams progressParams = new LayoutParams(progressWidth, progressWidth);
-            progressParams.addRule(RelativeLayout.CENTER_VERTICAL);
-            progressParams.addRule(RelativeLayout.LEFT_OF, llMainCenter.getId());
+            //重写设置进度条的位置--ton
+//            progressParams.addRule(RelativeLayout.CENTER_VERTICAL);
+//            progressParams.addRule(RelativeLayout.LEFT_OF, llMainCenter.getId());
+            progressParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             rlMain.addView(progressCenter, progressParams);
 
             // 初始化副标题栏
@@ -596,9 +604,13 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
             if (centerCustomView.getId() == View.NO_ID) {
                 centerCustomView.setId(StatusBarUtils.generateViewId());
             }
-            LayoutParams centerCustomParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+            LayoutParams centerCustomParams = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             centerCustomParams.leftMargin = PADDING_12;
             centerCustomParams.rightMargin = PADDING_12;
+            if(centerCustomView.getLayoutParams() != null){
+                centerCustomParams.height = centerCustomView.getLayoutParams().height;
+                centerCustomParams.width = centerCustomView.getLayoutParams().width;
+            }
             centerCustomParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 //            if (leftType == TYPE_LEFT_TEXTVIEW) {
 //                centerCustomParams.addRule(RelativeLayout.RIGHT_OF, tvLeft.getId());
@@ -640,6 +652,9 @@ public class CommonTitleBar extends RelativeLayout implements View.OnClickListen
     private Window getWindow() {
         Context context = getContext();
         Activity activity;
+        //----ton使之能够预览-----
+        if(isInEditMode())  return null;
+
         if (context instanceof Activity) {
             activity = (Activity) context;
         } else {
