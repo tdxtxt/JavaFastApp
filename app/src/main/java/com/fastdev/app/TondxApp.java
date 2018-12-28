@@ -24,6 +24,7 @@ import com.fastdev.bean.update.Market;
 import com.fastdev.bean.update.UpgradeInfo;
 import com.fastdev.helper.AppHelper;
 import com.fastdev.helper.FastAppCache;
+import com.fastdev.helper.ShareHelper;
 import com.fastdev.net.ApiClient;
 import com.fastdev.net.setting.TonNetProvider;
 import com.fastdev.ton.BuildConfig;
@@ -84,6 +85,8 @@ public class TondxApp extends DevApp{
             settingUpdate();
             //设置网络框架
             NetMgr.getInstance().registerProvider(new TonNetProvider());
+            //设置分享
+            ShareHelper.initSDK(app);
         }
     }
 

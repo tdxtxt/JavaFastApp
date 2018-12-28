@@ -7,7 +7,7 @@
     app:fillStatusBar="true"
     app:showBottomLine="false"
     app:bottomShadowHeight="3dp"
-    app:statusBarMode="dark"
+    app:statusBarMode="light"
     app:statusBarColor="@color/colorPrimary"
     app:leftImageResource="@drawable/icon_arrowx_left"
     app:leftType="imageButton"

@@ -1,0 +1,45 @@
+apply plugin: 'com.mob.sdk'
+//参考 http://wiki.mob.com/完整集成文档（gradle）/
+//http://wiki.mob.com/不同平台分享内容的详细说明/
+MobSDK {
+    appKey "bb2a4472051c"
+    appSecret "88a5ae93d20938e80b5e624c32129ba5"
+
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            Wechat {
+                sortId 1
+                appId "wx38677be160065e4a"
+                appSecret "13ed1c4eec9ddc51f3d0a2f0f6cc7941"
+                bypassApproval false
+            }
+            WechatMoments {
+                sortId 2
+                appId "wx38677be160065e4a"
+                appSecret "13ed1c4eec9ddc51f3d0a2f0f6cc7941"
+            }
+            QQ {
+                sortId 3
+                appId "1105593119"
+                appKey "d5sE7jbwnFEkkILx"
+                shareByAppClient true
+            }
+            Twitter {
+                sortId 4
+                appKey "GmMqk9dXvfzU7Iw3KWni2wq5I"
+                appSecret "CQF8ROS5VEGaVmfR64ldiEE4AuPZlPN6S1CxlXoV3tYAZMPkWz"
+                callbackUri "https://twitter.com"
+                enable true
+            }
+            ShortMessage {
+                sortId 5
+                enable true
+            }
+        }
+    }
+
+    permissions {
+        exclude "android.permission.RECEIVE_SMS"
+    }
+}

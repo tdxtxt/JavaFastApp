@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.butterknife'
-
+apply from: '../app/MobSDK.gradle'
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
