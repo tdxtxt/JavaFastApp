@@ -8,6 +8,8 @@ import android.view.View;
 import com.baselib.R;
 import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
+import butterknife.BindView;
+
 /**
  * @作者： ton
  * @创建时间： 2018\12\26 0026

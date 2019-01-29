@@ -19,12 +19,14 @@ import com.baselib.bean.event.Event;
 import com.baselib.helper.DialogHelper;
 import com.baselib.helper.EventBusHelper;
 import com.baselib.helper.HashMapParams;
+import com.baselib.helper.ToastHelper;
 import com.baselib.net.ComposeHelper;
 import com.baselib.net.reqApi.model.IModel;
 import com.baselib.ui.statusview.CustomCallback;
 import com.baselib.ui.statusview.EmptyCallback;
 import com.baselib.ui.statusview.ErrorCallback;
 import com.baselib.ui.statusview.LoadingCallback;
+import com.baselib.ui.view.IView;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.Convertor;
 import com.kingja.loadsir.core.LoadService;
@@ -43,7 +45,6 @@ import butterknife.Unbinder;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
 /**
  * @作者： ton
@@ -52,7 +53,7 @@ import io.reactivex.functions.Consumer;
  * @传入参数说明： 无
  * @返回参数说明： 无
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity implements IView {
     private Dialog mProgressDialog;
     private LoadService mLoadService;
     private RxPermissions mRxPermission;
@@ -64,6 +65,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         parseParams();//解析参数
         setContentView(getLayoutResID());
         unbinder = ButterKnife.bind(this);
+        initLoadView();
         overridePendingTransition(R.anim.baselib_slide_in_form_right, 0);//进入的切换动画
         initUi();
         if (isRegisteredEventBus()) {//尽量少用事件总线
@@ -76,7 +78,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         return R.id.view_content;
     }
     /**
-     * 配置状态页面,可重写
+     * 特殊页面 可重写配置相应状态页面,默认app初始化配置为准
      */
     protected LoadSir configLoadView(){
         return LoadSir.getDefault();
@@ -86,6 +88,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         if(loadSir == null) loadSir = LoadSir.getDefault();
         View contentView = findViewById(getContentResID());
         if(contentView == null) return;
+        //注册
         mLoadService = loadSir.register(contentView, new Callback.OnReloadListener() {
             @Override
             public void onReload(View v) {
@@ -104,19 +107,24 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             }
         });
     }
-    public void showLoading() {
+    @Override
+    public void showLoadingView() {
         if(mLoadService != null) mLoadService.showCallback(LoadingCallback.class);
     }
-    public void showSuccess() {
+    @Override
+    public void showContentView() {
         if(mLoadService != null) mLoadService.showSuccess();
     }
-    public void showEmpty() {
+    @Override
+    public void showEmptyView() {
         if(mLoadService != null) mLoadService.showCallback(EmptyCallback.class);
     }
-    public void showCustom(){
+    @Override
+    public void showCustomView(){
         if(mLoadService != null) mLoadService.showCallback(CustomCallback.class);
     }
-    public void showError(Throwable e) {
+    @Override
+    public void showErrorView(Throwable e) {
         if(mLoadService != null) mLoadService.showCallback(ErrorCallback.class);
     }
     /**
@@ -137,6 +145,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         reqApi();
     }
     /*************************************进度条*****************************************/
+    @Override
     public void showProgressBar() {
         if(isFinishing()) return;
         if(mProgressDialog == null) mProgressDialog = DialogHelper.createProgressDialog(this,"温馨提示","请耐心等待，正在处理...",true).getDialog();
@@ -145,8 +154,14 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             mProgressDialog.show();
         }
     }
+    @Override
     public void hideProgressBar() {
         if(mProgressDialog != null) mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void showToast(String msg){
+        ToastHelper.showToast(msg);
     }
     /*************************************startActivity*****************************************/
     public void startActivity(Class clazz, HashMapParams params){
@@ -227,6 +242,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
     }
     /****************************************网络请求销毁******************************************/
+    @Override
     public <T> FlowableTransformer<T,T> bindToLife(){
         return new FlowableTransformer<T, T>() {
             @Override
@@ -236,6 +252,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             }
         };
     }
+    @Override
     public <T> FlowableTransformer<T,T> bindToLifeAndIgnoreError(){
         return new FlowableTransformer<T, T>() {
             @Override
@@ -246,6 +263,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             }
         };
     }
+    @Override
     public <T extends IModel> FlowableTransformer<T,T> bindToLifeAndReqApi(){
         return new FlowableTransformer<T, T>() {
             @Override

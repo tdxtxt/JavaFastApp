@@ -100,6 +100,65 @@ public class NetMgr {
         return retrofit;
     }
 
+    /**
+     * 上传图片特殊处理
+     */
+    public Retrofit getRetrofitUpload(String baseUrl){
+        if(retrofitMap.get("upload-pic" + baseUrl) != null){
+            return retrofitMap.get("upload-pic" + baseUrl);
+        }
+        NetProvider provider = providerMap.get(baseUrl);
+        if (provider == null) {
+            provider = sProvider;
+        }
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        builder.connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true);
+        CookieJar cookieJar = provider.configCookie();
+        if (cookieJar != null) {
+            builder.cookieJar(cookieJar);
+        }
+        provider.configHttps(builder);
+
+        RequestHandler handler = provider.configHandler();
+        if (handler != null) {
+            builder.addInterceptor(new NetInterceptor(handler));
+        }
+
+        Interceptor[] interceptors = provider.configInterceptors();
+        if (!empty(interceptors)) {
+            for (Interceptor interceptor : interceptors) {
+                builder.addInterceptor(interceptor);
+            }
+        }
+
+        //注意：添加该拦截器会报错java.net.ProtocolException: unexpected end of stream，因为拦截器里面有个writeTo，导致你上传文件里面的RequestBody里面的writeTo触发了两次，数据翻倍，导致异常
+//        if (provider.configLogEnable()) {
+//            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLogger());
+//            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            builder.addInterceptor(loggingInterceptor);
+//        }
+
+        OkHttpClient client = builder.build();
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+
+        Retrofit.Builder retBuilder = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(client)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson));
+
+        Retrofit retrofit = retBuilder.build();
+        retrofitMap.put("upload-pic" + baseUrl,retrofit);
+        return retrofit;
+    }
+
     private boolean empty(String baseUrl) {
         return baseUrl == null || baseUrl.isEmpty();
     }
