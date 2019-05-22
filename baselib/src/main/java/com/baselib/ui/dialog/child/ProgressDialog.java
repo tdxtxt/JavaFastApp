@@ -1,9 +1,10 @@
-package com.baselib.ui.dialog;
+package com.baselib.ui.dialog.child;
 
 import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.baselib.ui.dialog.BaseDialog;
 
 /**
  * @作者： ton
@@ -12,7 +13,7 @@ import com.afollestad.materialdialogs.Theme;
  * @传入参数说明： 无
  * @返回参数说明： 无
  */
-public class ProgressDialog extends BaseDialog{
+public class ProgressDialog extends BaseDialog {
     public ProgressDialog(Context context,String title,String content,boolean cancelable) {
         super(new MaterialDialog.Builder(context)
                 .cancelable(cancelable)

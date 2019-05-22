@@ -16,7 +16,8 @@ import com.baselib.helper.OpenOsActHelper;
 import com.baselib.helper.ToastHelper;
 import com.baselib.helper.VersionHelper;
 import com.baselib.net.reqApi.NetMgr;
-import com.baselib.ui.dialog.ProgressDialog;
+import com.baselib.ui.dialog.callback.MenuDialogCallBack;
+import com.baselib.ui.dialog.child.ProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fastdev.bean.ResponseBody;
@@ -150,15 +151,15 @@ public class TondxApp extends DevApp{
                     @Override
                     public Dialog create(final Activity context) {
                         return DialogHelper.createCommDialog(context,"版本更新",update.getUpdateContent(),!update.isForced(),false,
-                                update.isForced() ? null : new DialogHelper.MenuDialogCallBack("取消"){
+                                update.isForced() ? null : new MenuDialogCallBack("取消"){
                                     @Override
-                                    public void onClick(Dialog dialog) {
+                                    public void onClick(View customView, Dialog dialog) {
                                         dialog.dismiss();
                                     }
                                 },
-                                new DialogHelper.MenuDialogCallBack("马上更新"){
+                                new MenuDialogCallBack("马上更新"){
                                     @Override
-                                    public void onClick(Dialog dialog) {
+                                    public void onClick(View customView, Dialog dialog) {
                                         // update: 更新数据实体类。activity:顶层Activity
                                         // 当检查到有更新且更新策略为UpdateStrategy.isShowUpdateDialog为true时调用到此
                                         // 当用户点击更新时：调用super.sendDownloadRequest(update)继续更新任务
@@ -269,9 +270,9 @@ public class TondxApp extends DevApp{
                         // 当用户点击忽略此版本更新时：调用super.sendCheckIgnore(update)
                         return DialogHelper.createCommDialog(activity,"安装提示","新版本下载完成,请点击安装",!update.isForced(),!update.isForced(),
                                 null,
-                                new DialogHelper.MenuDialogCallBack("安装"){
+                                new MenuDialogCallBack("安装"){
                                     @Override
-                                    public void onClick(Dialog dialog) {
+                                    public void onClick(View customView, Dialog dialog) {
                                         sendToInstall();
                                     }
                                 });

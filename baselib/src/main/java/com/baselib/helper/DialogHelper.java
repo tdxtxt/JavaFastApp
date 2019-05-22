@@ -12,7 +12,8 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-import com.baselib.ui.dialog.ProgressDialog;
+import com.baselib.ui.dialog.child.ProgressDialog;
+import com.baselib.ui.dialog.callback.MenuDialogCallBack;
 
 
 /**
@@ -42,7 +43,6 @@ public class DialogHelper {
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            leftMenu.onClick(dialog);
                             leftMenu.onClick(dialog.getCustomView(),dialog);
                         }
                     });
@@ -52,7 +52,6 @@ public class DialogHelper {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            rightMenu.onClick(dialog);
                             rightMenu.onClick(dialog.getCustomView(),dialog);
                         }
                     });
@@ -85,14 +84,6 @@ public class DialogHelper {
         return createCustomViewDialog(context,cancelable,View.inflate(context,layoutId,null),lifecycleListener);
     }
 
-    public static class MenuDialogCallBack{
-        String menuText;
-        public MenuDialogCallBack(String menuText){
-            this.menuText = menuText;
-        }
-        public void onClick(Dialog dialog) {}
-        public void onClick(View customView, Dialog dialog) {}
-    }
     public interface LifecycleListener{
         void onCreate(View view,Dialog dialog);
     }
