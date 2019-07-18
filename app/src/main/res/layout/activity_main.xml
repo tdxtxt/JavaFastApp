@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/layout_comm_toolbar" />
@@ -12,6 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="点击显示图片" />
+
+     <TextView
+         android:id="@+id/tv_content"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         tools:text="abcdefg"/>
 
     <ImageView
         android:id="@+id/iv_test"

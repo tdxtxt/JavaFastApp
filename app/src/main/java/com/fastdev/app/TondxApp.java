@@ -115,12 +115,14 @@ public class TondxApp extends DevApp{
     }
     private void settingUpdate() {
         UpdateConfig.getConfig()
-                .setCheckEntity(new CheckEntity().setUrl("http://www.test.api/common/version"))
+                .setCheckEntity(new CheckEntity().setUrl("https://www.baidu.com/"))
                 .setUpdateParser(new UpdateParser() {
                     @Override
                     public Update parse(String response) throws Exception {
+                        /**{"status":"200","msg":"请求成功","data":{"forced":true,"ignore":false,"updateContent":"升级啦，快下载哟","updateUrl":"https://www.sanxiapay.com/uxunimg/apk/Sanxiapay.apk","versionCode":"187","md5":"md5"}}**/
                         // 需要在此对response数据进行解析，并创建出对应的update实体类数据
                         // 提供给框架内部进行使用
+                        response = "{\"status\":\"200\",\"msg\":\"请求成功\",\"data\":{\"forced\":true,\"ignore\":false,\"updateContent\":\"升级啦，快下载哟\",\"updateUrl\":\"https://www.sanxiapay.com/uxunimg/apk/Sanxiapay.apk\",\"versionCode\":\"187\",\"md5\":\"md5\"}}";
                         Gson gson = new GsonBuilder().create();
                         ResponseBody<UpgradeInfo> body = gson.fromJson(response, new TypeToken<ResponseBody<UpgradeInfo>>(){}.getType());
                         return body.data;
@@ -217,7 +219,8 @@ public class TondxApp extends DevApp{
                         // 当FileCreator接口所创建的文件存在时，在检查到有更新且在启动下载任务前。触发检查
                         // 返回true:检查成功。跳过下载任务并继续后续任务. 返回false:检查失败。执行下载任务并继续后续任务
                         //例如：可对比md5或者版本号
-                        return true;
+                        if(file != null && file.exists()) file.delete();
+                        return false;
                     }
 
                     @Override
