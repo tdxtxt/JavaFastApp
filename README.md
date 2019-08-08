@@ -48,8 +48,14 @@ JavaFastApp
 #### 存储框架
 
 #### Activity的封装
-##### 1. BaseActivity基类封装功能【ButterKnife集成、状态页统一封装、EventBus集成、精度条】
-##### 2. 对标题栏的封装，继承自BaseActivity
+##### 1. ButterKnife的统一封装
+##### 2. Android 4.4版本以上沉浸式的封装
+##### 3. 状态页统一封装
+##### 4. 进度条封装
+##### 5. EventBus封装集成
+##### 6. 动态权限请求封装
+##### 7. 对顶部标题栏的封装，请参考CommToolBarActivity，继承BaseActivity
+##### 8. mvp架构封装，请参考CommToolBarMvpActivity，继承CommToolBarActivity
 
 
 #### Dialog使用
