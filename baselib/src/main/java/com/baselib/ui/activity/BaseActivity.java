@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,10 +19,13 @@ import com.baselib.R;
 import com.baselib.bean.event.Event;
 import com.baselib.helper.DialogHelper;
 import com.baselib.helper.EventBusHelper;
+import com.baselib.helper.FragmentHelper;
 import com.baselib.helper.HashMapParams;
 import com.baselib.helper.ToastHelper;
 import com.baselib.net.ComposeHelper;
 import com.baselib.net.reqApi.model.IModel;
+import com.baselib.ui.activity.callback.StartForResultListener;
+import com.baselib.ui.fragment.StartForResultFragment;
 import com.baselib.ui.statusview.CustomCallback;
 import com.baselib.ui.statusview.EmptyCallback;
 import com.baselib.ui.statusview.ErrorCallback;
@@ -169,10 +173,22 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView 
         intent.putExtra("Bundle",params.toBundle());
         startActivity(intent);
     }
-    public void startActivityForResult(Class clazz, HashMapParams params){
+
+    StartForResultFragment  mFragment;
+    public void startActivityForResult(Class clazz, HashMapParams params, StartForResultListener listener){
+        mFragment = (StartForResultFragment) getSupportFragmentManager().findFragmentByTag("__start_for_result");
+        if (mFragment == null) {
+            mFragment = new StartForResultFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(mFragment, "__start_for_result")
+                    .commitAllowingStateLoss();//避免数据保存和恢复导致的crash
+            getSupportFragmentManager().executePendingTransactions();
+        }
+        mFragment.setListener(listener);
         Intent intent = new Intent(this,clazz);
         intent.putExtra("Bundle",params.toBundle());
-        startActivityForResult(intent,12);
+        mFragment.startActivityForResult(intent, 12);
     }
 
     /**
