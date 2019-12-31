@@ -3,6 +3,8 @@ package com.fastdev.app;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -88,6 +90,11 @@ public class TondxApp extends DevApp{
             NetMgr.getInstance().registerProvider(new TonNetProvider());
             //设置分享
             ShareHelper.initSDK(app);
+            // 加载系统默认设置，字体不随用户设置变化
+            Resources res = app.getResources();
+            Configuration config = new Configuration();
+            config.setToDefaults();
+            res.updateConfiguration(config, res.getDisplayMetrics());
         }
     }
 

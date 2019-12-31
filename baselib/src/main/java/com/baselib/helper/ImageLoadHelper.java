@@ -28,4 +28,5 @@ public class ImageLoadHelper {
         if(imgView == null) return;
         mImageLoader.loadImage(imgView,url);
     }
+
 }

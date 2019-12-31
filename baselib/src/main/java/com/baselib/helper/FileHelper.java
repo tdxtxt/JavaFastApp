@@ -81,6 +81,16 @@ public class FileHelper {
         long len = getDirLength(dir);
         return len == -1 ? "" : byte2FitMemorySize(len);
     }
+
+    public static String getFileSize(final String filePath) {
+        return getFileSize(getFileByPath(filePath));
+    }
+    public static String getFileSize(final File file) {
+        if(file == null) return "";
+        long len = file.length();
+        return len == -1 ? "" : byte2FitMemorySize(len);
+    }
+
     public static long getDirLength(final String dirPath) {
         return getDirLength(getFileByPath(dirPath));
     }

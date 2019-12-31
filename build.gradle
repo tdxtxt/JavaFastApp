@@ -9,7 +9,7 @@ buildscript {
         maven { url "http://mvn.mob.com/android" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath 'com.mob.sdk:MobSDK-Impl:2018.0815.1838'
 
 

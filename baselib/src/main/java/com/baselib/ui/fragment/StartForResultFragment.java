@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 
 import com.baselib.ui.activity.callback.StartForResultListener;
 
+/**
+ * 用于startActivityForResult
+ */
 public class StartForResultFragment extends Fragment {
     private StartForResultListener mListener;
 

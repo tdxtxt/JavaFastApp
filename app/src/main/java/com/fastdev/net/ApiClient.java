@@ -15,7 +15,7 @@ public class ApiClient {
     private static String HOST1 = BuildConfig.HOST1;
 
     public static Host1Api getService1() {
-        return NetMgr.getInstance().getRetrofit(HOST1).create(Host1Api.class);
+        return NetMgr.getInstance().get(HOST1,Host1Api.class);
     }
 
     public static void changeHost1(String host){

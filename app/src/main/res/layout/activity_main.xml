@@ -7,24 +7,31 @@
 
     <include layout="@layout/layout_comm_toolbar" />
 
+
+    <com.fastdev.ui.weight.UploadPhotoView
+        android:id="@+id/uploadview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/tv_content1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="源文件大小"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/tv_content2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="压缩文件大小"
+        android:layout_gravity="center"/>
+
     <Button
         android:id="@+id/btn_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="点击显示图片" />
-
-     <TextView
-         android:id="@+id/tv_content"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center_horizontal"
-         tools:text="abcdefg"/>
-
-    <ImageView
-        android:id="@+id/iv_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 
 </LinearLayout>

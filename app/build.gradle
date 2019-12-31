@@ -9,8 +9,19 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }//解决AndroidStudio3.0 注解报错
         multiDexEnabled true
+
+        ndk {
+            //https://www.jianshu.com/p/fee82949ff84
+            //如果适配版本高于4.1版本，可以直接像我上面这样写，当然，如果armeabi-v7a不是设备主要ABI，那么会在性能上造成一定的影响。
+            //如果项目只包含了 armeabi，那么在所有Android设备都可以运行；
+            //如果项目只包含了 armeabi-v7a，除armeabi架构的设备外都可以运行；
+            //如果项目只包含了 x86，那么armeabi架构和armeabi-v7a的Android设备是无法运行的；
+            //如果同时包含了 armeabi,armeabi-v7a和x86，所有设备都可以运行，程序在运行的时候去加载不同平台对应的so，这是较为完美的一种解决方案，同时也会导致包变大。
+            //所有的x86/x86_64/armeabi-v7a/arm64-v8a设备都支持armeabi架构的.so文件，因此似乎移除其他ABIs的.so文件是一个减少APK大小的好技巧。但事实上并不是：这不只影响到函数库的性能和兼容性。
+            abiFilters "armeabi","armeabi-v7a"/*, "x86", "arm64-v8a", "x86_64", */
+        }
     }
     buildTypes {
         debug {
@@ -60,6 +71,10 @@ dependencies {
     implementation rootProject.ext.fastDev.updateplugin
     implementation rootProject.ext.fastDev["adapter-recyclerview"]
     implementation rootProject.ext.fastDev.indicator
+    implementation (rootProject.ext.fastDev.picture){
+        transitive = true
+        exclude group: 'com.github.bumptech.glide',module: 'glide'
+    }
 
     //控件id注入库
     implementation rootProject.ext.butterknifeLibs
