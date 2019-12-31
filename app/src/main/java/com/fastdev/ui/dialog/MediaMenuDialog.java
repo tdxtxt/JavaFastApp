@@ -1,4 +1,4 @@
-package com.baselib.ui.dialog;
+package com.fastdev.ui.dialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,11 +9,11 @@ import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.baselib.R;
 import com.baselib.helper.FileHelper;
 import com.baselib.helper.ToastHelper;
 import com.baselib.ui.dialog.popup.BasePopup;
+import com.fastdev.ton.R;
+
 import java.io.File;
 
 public class MediaMenuDialog extends BasePopup<MediaMenuDialog> {
@@ -33,7 +33,7 @@ public class MediaMenuDialog extends BasePopup<MediaMenuDialog> {
 
     @Override
     protected void initAttributes() {
-        setContentView(R.layout.baselib_popup_media_menu, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        setContentView(R.layout.dialog_media_menu, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setAnimationStyle(R.style.AnimBottom).setFocusAndOutsideEnable(true).setBackgroundDimEnable(true).setDimValue(0.5f);
     }
 
@@ -122,7 +122,7 @@ public class MediaMenuDialog extends BasePopup<MediaMenuDialog> {
         if(btnVideo != null) btnVideo.setVisibility(View.GONE);
     }
 
-    public MediaMenuDialog setRequestCode(int albumCode,int cameraCode){
+    public MediaMenuDialog setRequestCode(int albumCode, int cameraCode){
         this.ALBUM_REQUEST_CODE = albumCode;
         this.CAMERA_REQUEST_CODE = cameraCode;
         return this;

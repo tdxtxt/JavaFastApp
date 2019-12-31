@@ -11,10 +11,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.baselib.helper.ImageLoadHelper;
-import com.baselib.ui.dialog.MediaMenuDialog;
 import com.fastdev.ton.R;
+import com.fastdev.ui.dialog.MediaMenuDialog;
 
 public class UploadPhotoView extends FrameLayout {
     Activity context;
