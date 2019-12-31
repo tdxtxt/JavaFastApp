@@ -37,7 +37,6 @@ dependencies {
     api rootProject.ext.netLibs
 
     //快捷开发库
-    implementation rootProject.ext.fastDev.rxpermissions
     implementation rootProject.ext.fastDev.eventbus
     implementation (rootProject.ext.fastDev.dialog){
         transitive = true

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,12 +13,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.baselib.R;
 import com.baselib.bean.event.Event;
+import com.baselib.fanpermission.FanPermissionListener;
+import com.baselib.fanpermission.FanPermissionUtils;
 import com.baselib.helper.DialogHelper;
 import com.baselib.helper.EventBusHelper;
-import com.baselib.helper.FragmentHelper;
 import com.baselib.helper.HashMapParams;
 import com.baselib.helper.ToastHelper;
 import com.baselib.net.ComposeHelper;
@@ -36,14 +35,10 @@ import com.kingja.loadsir.core.Convertor;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.kingja.loadsir.core.Transport;
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.reactivestreams.Publisher;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Flowable;
@@ -60,7 +55,6 @@ import io.reactivex.Observable;
 public abstract class BaseActivity extends RxAppCompatActivity implements IView {
     private Dialog mProgressDialog;
     private LoadService mLoadService;
-    private RxPermissions mRxPermission;
     private Unbinder unbinder;
     protected abstract @LayoutRes int  getLayoutResID();
     @Override
@@ -193,10 +187,29 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView 
 
     /**
      * 动态权限
+     * listener 监听
+     * isForce  强制授权，否则弹框无法取消
      */
-    public Observable<Permission> requestPermissions(String ... permissions) {
-        if(mRxPermission == null) mRxPermission = new RxPermissions(this);
-        return mRxPermission.requestEach(permissions);
+    public void requestPermissions(FanPermissionListener listener, boolean isForce, String ... permissions) {
+        if(permissions == null || permissions.length ==0){
+            if(listener != null) listener.permissionRequestSuccess();
+            return;
+        }
+        FanPermissionUtils helper = FanPermissionUtils.with(this);
+        for (String permission : permissions){
+            helper.addPermissions(permission);
+        }
+        helper.setPermissionsCheckListener(listener)
+                //生成配置
+                .createConfig()
+                //配置是否强制用户授权才可以使用，当设置为true的时候，如果用户拒绝授权，会一直弹出授权框让用户授权
+                .setForceAllPermissionsGranted(isForce)
+                //配置当用户点击了不再提示的时候，会弹窗指引用户去设置页面授权，这个参数是弹窗里面的提示内容
+                .setForceDeniedPermissionTips("请前往设置->应用->【" + FanPermissionUtils.getAppName(this) + "】->权限中打开相关权限，否则功能无法正常运行！")
+                //构建配置并生效
+                .buildConfig()
+                //开始授权
+                .startCheckPermission();
     }
     /*************************************事件封装*****************************************/
     /**

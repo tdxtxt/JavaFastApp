@@ -88,8 +88,6 @@ ext{
             photoview : 'com.bm.photoview:library:1.4.1',
             /*图片选择器 https://github.com/LuckSiege/PictureSelector*/
             picture : 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.2',
-            /**运行时权限 https://github.com/tbruyelle/RxPermissions/tree/master  minSdkVersion>=11;使用RxPermissions申请权限，必须在Activity.onCreate()或者View.onFinishInflate()中处理。**/
-            rxpermissions : 'com.github.tbruyelle:rxpermissions:0.10.2',
             /**功能全面的自定义标题栏 https://github.com/wuhenzhizao/android-titlebar**/
             titlebar : 'com.wuhenzhizao:titlebar:1.0.7',
             /**加载中&重试&无数据状态页面封装  https://github.com/KingJA/LoadSir**/
